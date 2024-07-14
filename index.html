@@ -112,7 +112,7 @@
       colorCount.addEventListener("input", updateColorCount);
 
       // Handles the image upload
-      function handleImageUpload(e) {
+      const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
           const reader = new FileReader();
@@ -133,24 +133,24 @@
           };
           reader.readAsDataURL(file);
         }
-      }
+      };
 
       // Updates the displayed color count and extracts colors
-      function updateColorCount() {
+      const updateColorCount = () => {
         colorCountValue.textContent = colorCount.value;
         if (imagePreview.src) {
           extractColors();
         }
-      }
+      };
 
       // Extracts colors from the image using Color Thief
-      function extractColors() {
+      const extractColors = () => {
         const palette = colorThief.getPalette(imagePreview, parseInt(colorCount.value));
         displayColorPalette(palette);
-      }
+      };
 
       // Displays the extracted colors as a palette
-      function displayColorPalette(palette) {
+      const displayColorPalette = (palette) => {
         colorPalette.innerHTML = "";
         palette.forEach((color) => {
           const [r, g, b] = color;
@@ -162,10 +162,10 @@
           colorBox.addEventListener("click", () => copyToClipboard(hex));
           colorPalette.appendChild(colorBox);
         });
-      }
+      };
 
       // Converts RGB color to HEX
-      function rgbToHex(r, g, b) {
+      const rgbToHex = (r, g, b) => {
         return (
           "#" +
           [r, g, b]
@@ -175,14 +175,14 @@
             })
             .join("")
         );
-      }
+      };
 
       // Copies the color code to clipboard
-      function copyToClipboard(text) {
+      const copyToClipboard = (text) => {
         navigator.clipboard.writeText(text).then(() => {
           alert("Color code copied to clipboard!");
         });
-      }
+      };
     </script>
   </body>
 </html>
