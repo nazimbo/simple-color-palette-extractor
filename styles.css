@@ -129,6 +129,32 @@ input[type="range"]::-webkit-slider-runnable-track {
   opacity: 1;
 }
 
+/* Loading state styles */
+.loading {
+  opacity: 0.7;
+  position: relative;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border: 2px solid var(--primary-color);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: loading-spinner 0.6s linear infinite;
+}
+
+@keyframes loading-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 #colorCountValue {
   display: inline-block;
   min-width: 30px;

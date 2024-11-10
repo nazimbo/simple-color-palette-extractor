@@ -47,18 +47,39 @@ const handleImageUpload = (e) => {
   reader.readAsDataURL(file);
 };
 
+// Debounce function
+const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
 // Updates the displayed color count and extracts colors
-const updateColorCount = () => {
+const updateColorCount = debounce(() => {
   colorCountValue.textContent = colorCount.value;
   if (imagePreview.complete && imagePreview.naturalHeight !== 0) {
     extractColors();
   }
-};
+}, 300); // Wait 300ms before executing
 
 // Extracts colors from the image using Color Thief
 const extractColors = () => {
-  const palette = colorThief.getPalette(imagePreview, parseInt(colorCount.value));
-  displayColorPalette(palette);
+  // Add loading state
+  colorPalette.classList.add('loading');
+  
+  // Use setTimeout to ensure the loading state is visible
+  setTimeout(() => {
+    const palette = colorThief.getPalette(imagePreview, parseInt(colorCount.value));
+    displayColorPalette(palette);
+    // Remove loading state
+    colorPalette.classList.remove('loading');
+  }, 0);
 };
 
 // Displays the extracted colors as a palette
