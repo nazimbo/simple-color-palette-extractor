@@ -16,7 +16,11 @@ body {
   align-items: center;
   min-height: 100vh;
   margin: 0;
-  padding: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+* {
   box-sizing: border-box;
 }
 
@@ -24,10 +28,241 @@ body {
   background-color: white;
   border-radius: var(--border-radius);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  max-width: 600px;
+  padding: 1rem;
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
+  }
+}
+
+.drop-zone {
+  border: 2px dashed var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
+  background-color: var(--secondary-color);
+}
+
+@media (min-width: 768px) {
+  .drop-zone {
+    padding: 2rem;
+  }
+}
+
+.input-group {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px dashed var(--primary-color);
+  border-radius: var(--border-radius);
+  background-color: var(--secondary-color);
+}
+
+#colorPalette {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  #colorPalette {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 15px;
+  }
+}
+
+#imagePreview {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+  margin: 1rem 0;
+}
+
+#placeholderImage {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0;
+  border-radius: var(--border-radius);
+  margin: 1rem 0;
+}
+
+@media (min-width: 768px) {
+  #placeholderImage {
+    height: 300px;
+  }
+}
+
+/* Make sure all text is responsive */
+h1 {
+  font-size: 1.5rem;
+  margin: 1rem 0;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2rem;
+    margin: 1.5rem 0;
+  }
+}
+
+.drop-zone-text {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .drop-zone-text {
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+}
+
+/* Ensure notifications don't overflow on mobile */
+.notification {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  left: 10px;
+  margin: 0 auto;
+  max-width: calc(100% - 20px);
+  z-index: 1000;
+}
+
+@media (min-width: 768px) {
+  .notification {
+    left: auto;
+    max-width: 300px;
+  }
+}
+
+.container {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: clamp(1rem, 5vw, 2rem); /* Responsive padding */
+  width: min(90%, 600px); /* Responsive width */
+  margin: 0 auto;
   position: relative;
+}
+
+h1 {
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.5rem, 4vw, 2rem); /* Responsive font size */
+  font-weight: 600;
+}
+
+.drop-zone {
+  border: 2px dashed var(--primary-color);
+  border-radius: var(--border-radius);
+  padding: clamp(1rem, 3vw, 2rem); /* Responsive padding */
+  text-align: center;
+  transition: all 0.3s ease;
+  background-color: var(--secondary-color);
+  width: 100%;
+  max-width: min(100%, 320px); /* Responsive max-width */
+  margin: 0 auto 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drop-zone .input-group {
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.drop-zone input[type="file"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 2vw, 1rem); /* Responsive padding */
+  font-size: clamp(0.875rem, 2vw, 1rem); /* Responsive font size */
+}
+
+.drop-zone-text {
+  margin-top: 1rem;
+  color: #666;
+  font-size: clamp(0.75rem, 2vw, 0.9rem); /* Responsive font size */
+  font-weight: 300;
+}
+
+#colorPalette {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(70px, 20%), 1fr)); /* Responsive grid */
+  gap: clamp(8px, 2vw, 15px); /* Responsive gap */
+}
+
+.color-box {
+  aspect-ratio: 1;
+  border-radius: calc(var(--border-radius) * 0.75);
+}
+
+.color-hex {
+  font-size: clamp(0.7rem, 2vw, 0.8rem); /* Responsive font size */
+  padding: clamp(3px, 1vw, 5px) clamp(6px, 2vw, 10px); /* Responsive padding */
+}
+
+#placeholderImage {
+  width: 100%;
+  height: clamp(200px, 50vw, 300px); /* Responsive height */
+  font-size: clamp(1rem, 2.5vw, 1.2rem); /* Responsive font size */
+}
+
+/* Media Queries for very small screens */
+@media (max-width: 350px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .drop-zone {
+    padding: 1rem;
+  }
+
+  input[type="file"]::before {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* Ensure proper touch targets on mobile */
+@media (hover: none) {
+  input[type="range"] {
+    height: 44px; /* Minimum touch target size */
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    width: 28px;
+    height: 28px;
+  }
+
+  .color-box {
+    min-height: 44px;
+  }
+
+  .color-hex {
+    opacity: 1; /* Always show color codes on touch devices */
+    background-color: rgba(255, 255, 255, 0.9);
+  }
 }
 
 h1 {
@@ -49,17 +284,51 @@ label {
   font-weight: 300;
 }
 
+.input-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 input[type="file"] {
   width: 100%;
-  padding: 10px;
+  max-width: 320px;
+  padding: 0.75rem 1rem;
   border: 2px dashed var(--primary-color);
   border-radius: var(--border-radius);
   background-color: var(--secondary-color);
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  margin: 0 auto;
 }
 
 input[type="file"]:hover {
   border-color: #2c7be5;
+  background-color: rgba(74, 144, 226, 0.1);
+}
+
+/* Style the file input button */
+input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+  display: none;
+}
+
+input[type="file"]::before {
+  content: 'Choose an image';
+  display: inline-block;
+  background: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  margin-right: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]:hover::before {
+  background: #2c7be5;
 }
 
 input[type="range"] {
@@ -202,15 +471,34 @@ input[type="range"]::-webkit-slider-runnable-track {
   text-align: center;
   transition: all 0.3s ease;
   background-color: var(--secondary-color);
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drop-zone .input-group {
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+.drop-zone input[type="file"] {
+  width: 100%;
+  box-sizing: border-box;
+  max-width: none; /* Remove max-width constraint inside drop-zone */
 }
 
 .drop-zone.drag-over {
   background-color: rgba(74, 144, 226, 0.1);
   border-color: #2c7be5;
+  transform: scale(1.02);
 }
 
 .drop-zone-text {
   margin-top: 1rem;
   color: #666;
   font-size: 0.9rem;
+  font-weight: 300;
 }
