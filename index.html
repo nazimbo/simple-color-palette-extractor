@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
     <title>Color Palette Extractor</title>
-    <meta name="description" content="Extract color palettes from images with this easy-to-use tool">
+    <meta name="description" content="Extract color palettes from images with this easy-to-use tool" />
     <link rel="icon" href="https://img.icons8.com/color/96/color-palette.png" />
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
@@ -12,75 +12,29 @@
   <body>
     <div class="container" role="main">
       <h1>Color Palette Extractor</h1>
-      <div 
-        class="drop-zone" 
-        id="dropZone" 
-        role="region" 
-        aria-label="Image upload area"
-      >
+      <div class="drop-zone" id="dropZone" role="region" aria-label="Image upload area">
         <div class="input-group">
           <label for="imageUpload">Upload an image:</label>
-          <input 
-            type="file" 
-            id="imageUpload" 
-            accept="image/*" 
-            aria-describedby="fileHelp"
-          />
-          <div id="fileHelp" class="sr-only">
-            Accepted file types: JPG, PNG, GIF. Maximum file size: 5MB
-          </div>
+          <input type="file" id="imageUpload" accept="image/*" aria-describedby="fileHelp" />
+          <div id="fileHelp" class="sr-only">Accepted file types: JPG, PNG, GIF. Maximum file size: 5MB</div>
         </div>
-        <div class="drop-zone-text" aria-live="polite">
-          or drag and drop an image here
-        </div>
+        <div class="drop-zone-text" aria-live="polite">or drag and drop an image here</div>
       </div>
-      
+
       <div class="input-group">
-        <label for="colorCount">
-          Number of colors: <span id="colorCountValue" aria-live="polite">5</span>
-        </label>
-        <input 
-          type="range" 
-          id="colorCount" 
-          min="2" 
-          max="10" 
-          value="5"
-          aria-valuemin="2"
-          aria-valuemax="10"
-          aria-valuenow="5"
-        />
+        <label for="colorCount"> Number of colors: <span id="colorCountValue" aria-live="polite">5</span> </label>
+        <input type="range" id="colorCount" min="2" max="10" value="5" aria-valuemin="2" aria-valuemax="10" aria-valuenow="5" />
       </div>
-      
-      <div 
-        id="placeholderImage" 
-        role="img" 
-        aria-label="No image uploaded"
-      >
-        No image uploaded
-      </div>
-      
-      <img 
-        id="imagePreview" 
-        style="display: none" 
-        alt="Uploaded image preview"
-        loading="lazy"
-      />
-      
-      <div 
-        id="colorPalette" 
-        role="region" 
-        aria-label="Extracted color palette"
-        aria-live="polite"
-      ></div>
+
+      <div id="placeholderImage" role="img" aria-label="No image uploaded">No image uploaded</div>
+
+      <img id="imagePreview" style="display: none" alt="Uploaded image preview" loading="lazy" />
+
+      <div id="colorPalette" role="region" aria-label="Extracted color palette" aria-live="polite"></div>
     </div>
-    
-    <div 
-      id="notification" 
-      class="notification" 
-      role="alert" 
-      aria-live="polite"
-    ></div>
-    
+
+    <div id="notification" class="notification" role="alert" aria-live="polite"></div>
+
     <script src="script.js"></script>
   </body>
 </html>
