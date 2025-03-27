@@ -622,7 +622,8 @@ input:checked + .slider:after {
 
   .color-hex {
     transform: translateY(0);
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: var(--color-hex-bg);
+    color: var(--color-hex-text);
     position: absolute;
     bottom: 0;
     left: 0;
