@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
     <title>Color Palette Extractor</title>
-    <meta name="description" content="Extract color palettes from images with this easy-to-use tool" />
+    <meta name="description" content="Extract beautiful color palettes from your images with this easy-to-use tool" />
     <link rel="icon" href="https://img.icons8.com/color/96/color-palette.png" />
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.6.0/color-thief.min.js" integrity="sha512-Qsp00gBIzIqLPECogMy5bQ6uOsMig9lc37A8qEHMvSze65UK21DHONbfSTY09zE9V8C0tQN+ldPU6w0wlBSfcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -12,22 +12,31 @@
   <body>
     <div class="container" role="main">
       <h1>Color Palette Extractor</h1>
+      
       <div class="drop-zone" id="dropZone" role="region" aria-label="Image upload area">
         <div class="input-group">
           <label for="imageUpload">Upload an image:</label>
-          <input type="file" id="imageUpload" accept="image/*" aria-describedby="fileHelp" />
-          <div id="fileHelp" class="sr-only">Accepted file types: JPG, PNG, GIF. Maximum file size: 5MB</div>
+          <div class="file-input-wrapper">
+            <input type="file" id="imageUpload" accept="image/*" aria-describedby="fileHelp" />
+            <div id="fileHelp" class="sr-only">Accepted file types: JPG, PNG, GIF. Maximum file size: 5MB</div>
+          </div>
         </div>
         <div class="drop-zone-text" aria-live="polite">or drag and drop an image here</div>
       </div>
 
       <div class="input-group">
-        <label for="colorCount"> Number of colors: <span id="colorCountValue" aria-live="polite">5</span> </label>
-        <input type="range" id="colorCount" min="2" max="10" value="5" aria-valuemin="2" aria-valuemax="10" aria-valuenow="5" />
+        <label for="colorCount">
+          Number of colors: 
+          <span id="colorCountValue" class="color-count-value" aria-live="polite">5</span>
+        </label>
+        <div class="range-input-container">
+          <input type="range" id="colorCount" min="2" max="10" value="5" 
+                aria-valuemin="2" aria-valuemax="10" aria-valuenow="5" />
+        </div>
       </div>
 
       <div class="input-group format-selector">
-        <label>Color format:</label>
+        <label class="text-center">Color format:</label>
         <div class="format-options" role="radiogroup" aria-label="Select color format">
           <div class="format-option">
             <input type="radio" id="formatHex" name="colorFormat" value="hex" checked aria-describedby="hexFormatHelp" />
@@ -47,11 +56,16 @@
         </div>
       </div>
 
-      <div id="placeholderImage" role="img" aria-label="No image uploaded">No image uploaded</div>
-
-      <img id="imagePreview" style="display: none" alt="Uploaded image preview" loading="lazy" />
+      <div class="image-preview-container">
+        <div id="placeholderImage" role="img" aria-label="No image uploaded">No image uploaded</div>
+        <img id="imagePreview" style="display: none" alt="Uploaded image preview" loading="lazy" />
+      </div>
 
       <div id="colorPalette" role="region" aria-label="Extracted color palette" aria-live="polite"></div>
+      
+      <div class="app-footer">
+        <p>Select a color to copy its value to clipboard</p>
+      </div>
     </div>
 
     <div id="notification" class="notification" role="alert" aria-live="polite"></div>
