@@ -11,6 +11,12 @@
   </head>
   <body>
     <div class="container" role="main">
+      <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="themeToggle">
+          <input type="checkbox" id="themeToggle" aria-label="Toggle dark mode">
+          <span class="slider"></span>
+        </label>
+      </div>
       <h1>Color Palette Extractor</h1>
       
       <div class="drop-zone" id="dropZone" role="region" aria-label="Image upload area">
@@ -72,5 +78,9 @@
 
     <!-- Use type="module" to enable ES modules -->
     <script type="module" src="js/index.js"></script>
+    <script type="module">
+      import { initThemeSwitcher } from './js/theme.js';
+      document.addEventListener('DOMContentLoaded', initThemeSwitcher);
+    </script>
   </body>
 </html>
