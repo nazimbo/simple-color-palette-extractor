@@ -26,6 +26,27 @@
         <input type="range" id="colorCount" min="2" max="10" value="5" aria-valuemin="2" aria-valuemax="10" aria-valuenow="5" />
       </div>
 
+      <div class="input-group format-selector">
+        <label>Color format:</label>
+        <div class="format-options" role="radiogroup" aria-label="Select color format">
+          <div class="format-option">
+            <input type="radio" id="formatHex" name="colorFormat" value="hex" checked aria-describedby="hexFormatHelp" />
+            <label for="formatHex">HEX</label>
+            <div id="hexFormatHelp" class="sr-only">Hexadecimal color format (e.g., #FF5733)</div>
+          </div>
+          <div class="format-option">
+            <input type="radio" id="formatRgb" name="colorFormat" value="rgb" aria-describedby="rgbFormatHelp" />
+            <label for="formatRgb">RGB</label>
+            <div id="rgbFormatHelp" class="sr-only">RGB color format (e.g., rgb(255, 87, 51))</div>
+          </div>
+          <div class="format-option">
+            <input type="radio" id="formatHsl" name="colorFormat" value="hsl" aria-describedby="hslFormatHelp" />
+            <label for="formatHsl">HSL</label>
+            <div id="hslFormatHelp" class="sr-only">HSL color format (e.g., hsl(14, 100%, 60%))</div>
+          </div>
+        </div>
+      </div>
+
       <div id="placeholderImage" role="img" aria-label="No image uploaded">No image uploaded</div>
 
       <img id="imagePreview" style="display: none" alt="Uploaded image preview" loading="lazy" />

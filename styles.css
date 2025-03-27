@@ -372,3 +372,39 @@ input[type="range"]::-webkit-slider-runnable-track {
     border: 1px solid currentColor;
   }
 }
+
+/* Format Selector Styles */
+.format-selector {
+  margin-bottom: 1.5rem;
+}
+
+.format-options {
+  display: flex;
+  gap: 15px;
+  margin-top: 0.5rem;
+}
+
+.format-option {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.format-option input[type="radio"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+.format-option label {
+  margin: 0;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Mobile optimization */
+@media (max-width: 350px) {
+  .format-options {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

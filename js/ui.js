@@ -2,7 +2,7 @@
  * UI-related functionality
  */
 
-import { rgbToHex } from './utils.js';
+import { rgbToHex, rgbToFormat } from './utils.js';
 import { ERROR_MESSAGES } from './constants.js';
 
 /**
@@ -42,34 +42,37 @@ export const copyToClipboard = async (text) => {
  * Displays the extracted colors as a palette
  * @param {Array} palette - Array of RGB colors
  * @param {HTMLElement} colorPalette - Element to display colors in
+ * @param {string} format - Color format to display ('hex', 'rgb', 'hsl')
  */
-export const displayColorPalette = (palette, colorPalette) => {
+export const displayColorPalette = (palette, colorPalette, format = 'hex') => {
   try {
     colorPalette.innerHTML = "";
 
     palette.forEach((color) => {
       const [r, g, b] = color;
-      const hex = rgbToHex(r, g, b);
+      const backgroundStyle = `rgb(${r},${g},${b})`;
+      const colorString = rgbToFormat(color, format);
+      
       const colorBox = document.createElement("div");
-
       colorBox.className = "color-box";
-      colorBox.style.backgroundColor = `rgb(${r},${g},${b})`;
+      colorBox.style.backgroundColor = backgroundStyle;
       colorBox.setAttribute("role", "button");
-      colorBox.setAttribute("aria-label", `Color ${hex}. Click to copy`);
+      colorBox.setAttribute("aria-label", `Color ${colorString}. Click to copy`);
       colorBox.setAttribute("tabindex", "0");
+      colorBox.dataset.rgb = JSON.stringify(color); // Store original RGB values
 
-      const hexSpan = document.createElement("span");
-      hexSpan.className = "color-hex";
-      hexSpan.textContent = hex;
+      const colorSpan = document.createElement("span");
+      colorSpan.className = "color-hex"; // Keep the class name for consistency
+      colorSpan.textContent = colorString;
 
-      colorBox.appendChild(hexSpan);
+      colorBox.appendChild(colorSpan);
 
       // Add keyboard support
-      colorBox.addEventListener("click", () => copyToClipboard(hex));
+      colorBox.addEventListener("click", () => copyToClipboard(colorString));
       colorBox.addEventListener("keypress", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          copyToClipboard(hex);
+          copyToClipboard(colorString);
         }
       });
 
@@ -77,6 +80,51 @@ export const displayColorPalette = (palette, colorPalette) => {
     });
   } catch (error) {
     console.error("Error in displayColorPalette:", error);
+    showNotification(ERROR_MESSAGES.GENERAL);
+  }
+};
+
+/**
+ * Updates color format for existing palette
+ * @param {HTMLElement} colorPalette - Element containing the color palette
+ * @param {string} format - Color format to update to ('hex', 'rgb', 'hsl')
+ */
+export const updateColorFormat = (colorPalette, format) => {
+  try {
+    const colorBoxes = colorPalette.querySelectorAll('.color-box');
+    
+    colorBoxes.forEach(box => {
+      if (box.dataset.rgb) {
+        const rgb = JSON.parse(box.dataset.rgb);
+        const colorString = rgbToFormat(rgb, format);
+        
+        // Update the displayed color code
+        const colorSpan = box.querySelector('.color-hex');
+        if (colorSpan) {
+          colorSpan.textContent = colorString;
+        }
+        
+        // Update aria-label
+        box.setAttribute("aria-label", `Color ${colorString}. Click to copy`);
+        
+        // Update click handler
+        const newClickHandler = () => copyToClipboard(colorString);
+        
+        // Remove old handlers and add new one
+        const newBox = box.cloneNode(true);
+        newBox.addEventListener("click", newClickHandler);
+        newBox.addEventListener("keypress", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            newClickHandler();
+          }
+        });
+        
+        box.parentNode.replaceChild(newBox, box);
+      }
+    });
+  } catch (error) {
+    console.error("Error in updateColorFormat:", error);
     showNotification(ERROR_MESSAGES.GENERAL);
   }
 };

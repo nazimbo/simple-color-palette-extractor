@@ -5,7 +5,7 @@
 import { DEBOUNCE_DELAY, ERROR_MESSAGES } from './constants.js';
 import { handleImageUpload } from './fileHandler.js';
 import { extractColorsFromImage } from './colorExtractor.js';
-import { displayColorPalette, updateRangeInputDisplay, showNotification, setLoading } from './ui.js';
+import { displayColorPalette, updateRangeInputDisplay, showNotification, setLoading, updateColorFormat } from './ui.js';
 import { setupDragAndDrop } from './dragDrop.js';
 import { debounce } from './utils.js';
 
@@ -19,14 +19,19 @@ export class ColorPaletteApp {
     this.colorCountValue = document.getElementById("colorCountValue");
     this.colorPalette = document.getElementById("colorPalette");
     this.dropZone = document.getElementById("dropZone");
+    this.formatInputs = document.querySelectorAll('input[name="colorFormat"]');
     
     // Color thief instance
     this.colorThief = new ColorThief();
+    
+    // Current color format
+    this.currentFormat = 'hex'; // Default format
 
     // Bind methods
     this.extractColors = this.extractColors.bind(this);
     this.handleImageUploadEvent = this.handleImageUploadEvent.bind(this);
     this.handleColorCountChange = this.handleColorCountChange.bind(this);
+    this.handleFormatChange = this.handleFormatChange.bind(this);
     
     // Setup debounced color count change handler
     this.debouncedColorCountChange = debounce(this.handleColorCountChange, DEBOUNCE_DELAY);
@@ -39,6 +44,11 @@ export class ColorPaletteApp {
     // Setup event listeners
     this.imageUpload.addEventListener("change", this.handleImageUploadEvent);
     this.colorCount.addEventListener("input", this.debouncedColorCountChange);
+    
+    // Setup format change listeners
+    this.formatInputs.forEach(input => {
+      input.addEventListener("change", this.handleFormatChange);
+    });
     
     this.imagePreview.addEventListener("error", () => {
       showNotification(ERROR_MESSAGES.FILE_LOAD);
@@ -60,6 +70,11 @@ export class ColorPaletteApp {
     // Remove event listeners
     this.imageUpload.removeEventListener("change", this.handleImageUploadEvent);
     this.colorCount.removeEventListener("input", this.debouncedColorCountChange);
+    
+    // Remove format change listeners
+    this.formatInputs.forEach(input => {
+      input.removeEventListener("change", this.handleFormatChange);
+    });
     
     // Clean up drag and drop
     if (this.dragDropCleanup) {
@@ -87,6 +102,23 @@ export class ColorPaletteApp {
       this.extractColors();
     }
   }
+  
+  /**
+   * Handle color format change events
+   * @param {Event} e - Change event
+   */
+  handleFormatChange(e) {
+    const newFormat = e.target.value;
+    
+    if (newFormat !== this.currentFormat) {
+      this.currentFormat = newFormat;
+      
+      // If we have colors already extracted, update their format
+      if (this.colorPalette.children.length > 0) {
+        updateColorFormat(this.colorPalette, this.currentFormat);
+      }
+    }
+  }
 
   /**
    * Extract colors from the current image
@@ -105,7 +137,7 @@ export class ColorPaletteApp {
           );
           
           if (palette.length > 0) {
-            displayColorPalette(palette, this.colorPalette);
+            displayColorPalette(palette, this.colorPalette, this.currentFormat);
           }
         } catch (error) {
           console.error("Error in extractColors:", error);
