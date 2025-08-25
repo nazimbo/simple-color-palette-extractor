@@ -91,11 +91,11 @@ export class ColorPaletteApp {
   /**
    * Handle color count change events
    */
-  handleColorCountChange() {
+  async handleColorCountChange() {
     updateRangeInputDisplay(this.colorCount, this.colorCountValue);
     
     if (this.imagePreview.complete && this.imagePreview.naturalHeight !== 0) {
-      this.extractColors();
+      await this.extractColors();
     }
   }
   
@@ -119,30 +119,26 @@ export class ColorPaletteApp {
   /**
    * Extract colors from the current image
    */
-  extractColors() {
+  async extractColors() {
     try {
       setLoading(this.colorPalette, true);
 
-      // Use setTimeout to ensure the loading state is visible
-      setTimeout(() => {
-        try {
-          const palette = extractColorsFromImage(
-            this.imagePreview, 
-            this.colorCount.value,
-            this.colorThief
-          );
-          
-          if (palette.length > 0) {
-            displayColorPalette(palette, this.colorPalette, this.currentFormat);
-          }
-        } catch (error) {
-          console.error("Error in extractColors:", error);
-        } finally {
-          setLoading(this.colorPalette, false);
-        }
-      }, 0);
+      // Use requestAnimationFrame to ensure the loading state is visible
+      await new Promise(resolve => requestAnimationFrame(resolve));
+
+      const palette = extractColorsFromImage(
+        this.imagePreview, 
+        this.colorCount.value,
+        this.colorThief
+      );
+      
+      if (palette.length > 0) {
+        displayColorPalette(palette, this.colorPalette, this.currentFormat);
+      }
     } catch (error) {
-      console.error("Error preparing for color extraction:", error);
+      // Error in extractColors - handled by UI notification
+    } finally {
+      setLoading(this.colorPalette, false);
     }
   }
 }
