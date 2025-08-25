@@ -10,5 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
   app.init();
   
   // Optional: Store the app instance in window for debugging
-  window.colorPaletteApp = app;
+  // Only expose in development (when hostname is localhost or file://)
+  if (window.location.hostname === 'localhost' || 
+      window.location.hostname === '127.0.0.1' || 
+      window.location.protocol === 'file:') {
+    window.colorPaletteApp = app;
+  }
 });
