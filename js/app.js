@@ -59,8 +59,6 @@ export class ColorPaletteApp {
 
     // Initial UI update
     updateRangeInputDisplay(this.colorCount, this.colorCountValue);
-
-    console.log("Color Palette Extractor initialized");
   }
 
   /**
@@ -80,8 +78,6 @@ export class ColorPaletteApp {
     if (this.dragDropCleanup) {
       this.dragDropCleanup();
     }
-
-    console.log("Color Palette Extractor destroyed");
   }
 
   /**
