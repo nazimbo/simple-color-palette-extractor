@@ -3,80 +3,118 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
-    <title>Color Palette Extractor</title>
-    <meta name="description" content="Extract beautiful color palettes from your images with this easy-to-use tool" />
+    <title>Color Extractor</title>
+    <meta name="description" content="Upload an image, extract its color palette." />
     <link rel="icon" href="https://img.icons8.com/color/96/color-palette.png" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.6.0/color-thief.min.js" integrity="sha512-Qsp00gBIzIqLPECogMy5bQ6uOsMig9lc37A8qEHMvSze65UK21DHONbfSTY09zE9V8C0tQN+ldPU6w0wlBSfcA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.6.0/color-thief.min.js"
+      integrity="sha512-Qsp00gBIzIqLPECogMy5bQ6uOsMig9lc37A8qEHMvSze65UK21DHONbfSTY09zE9V8C0tQN+ldPU6w0wlBSfcA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+    </script>
   </head>
   <body>
-    <div class="container" role="main">
-      <div class="theme-switch-wrapper">
-        <label class="theme-switch" for="themeToggle">
-          <input type="checkbox" id="themeToggle" aria-label="Toggle dark mode">
-          <span class="slider"></span>
+    <div class="page">
+
+      <!-- Toolbar -->
+      <header class="toolbar">
+        <div class="wordmark">
+          <span class="coral-dot" aria-hidden="true"></span>
+          <span class="label">Color Extractor&nbsp;/&nbsp;N°01</span>
+        </div>
+        <label class="theme-toggle" for="themeToggle" aria-label="Toggle dark mode">
+          <input type="checkbox" id="themeToggle" />
+          <span class="toggle-icon icon-light" aria-hidden="true">☾</span>
+          <span class="toggle-icon icon-dark"  aria-hidden="true">☼</span>
+        </label>
+      </header>
+
+      <!-- Hero -->
+      <section class="hero" aria-label="Color Extractor">
+        <h1 class="hero-title">
+          <span class="hero-text hero-text--extract">Extract</span>
+          <span class="hero-text hero-text--palette" aria-hidden="true">Palette</span>
+          <span class="hero-dot" aria-hidden="true">.</span>
+        </h1>
+        <p class="hero-subtitle">Upload an image, extract its color palette.</p>
+      </section>
+
+      <!-- Step indicator -->
+      <p class="step-label" aria-live="polite">
+        <span class="step-label--upload">Step 01 / Upload an image</span>
+        <span class="step-label--palette">Step 02 / Your palette</span>
+      </p>
+
+      <!-- Controls: always accessible for presetting before upload -->
+      <div class="controls">
+        <div class="control-row">
+          <div class="control-header">
+            <span class="label">Colors</span>
+            <span id="colorCountValue" class="color-count-value" aria-live="polite">5</span>
+          </div>
+          <input type="range" id="colorCount" min="2" max="10" value="5"
+                 aria-label="Number of colors"
+                 aria-valuemin="2" aria-valuemax="10" aria-valuenow="5" />
+        </div>
+
+        <div class="control-row">
+          <span class="label">Format</span>
+          <div class="format-chips" role="radiogroup" aria-label="Select color format">
+            <div class="format-chip">
+              <input type="radio" id="formatHex" name="colorFormat" value="hex" checked />
+              <label for="formatHex">HEX</label>
+            </div>
+            <div class="format-chip">
+              <input type="radio" id="formatRgb" name="colorFormat" value="rgb" />
+              <label for="formatRgb">RGB</label>
+            </div>
+            <div class="format-chip">
+              <input type="radio" id="formatHsl" name="colorFormat" value="hsl" />
+              <label for="formatHsl">HSL</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- File input: lives outside the dropzone so it stays accessible after upload -->
+      <input type="file" id="imageUpload" accept="image/*"
+             class="upload-input"
+             aria-label="Upload an image file"
+             aria-describedby="fileHelp" />
+      <span id="fileHelp" class="sr-only">Accepted types: JPG, PNG, GIF. Max 5 MB.</span>
+
+      <!-- Step 01: Drop zone (hides after upload via CSS :has()) -->
+      <div id="dropZone" role="region" aria-label="Image upload area">
+        <label for="imageUpload" class="dropzone-label">
+          <p class="dropzone-cue">Drop it here</p>
+          <p class="dropzone-hint">or click to browse · max 5 MB</p>
         </label>
       </div>
-      <h1>Color Palette Extractor</h1>
-      
-      <div class="drop-zone" id="dropZone" role="region" aria-label="Image upload area">
-        <div class="input-group">
-          <label for="imageUpload">Upload an image:</label>
-          <div class="file-input-wrapper">
-            <input type="file" id="imageUpload" accept="image/*" aria-describedby="fileHelp" />
-            <div id="fileHelp" class="sr-only">Accepted file types: JPG, PNG, GIF. Maximum file size: 5MB</div>
-          </div>
-        </div>
-        <div class="drop-zone-text" aria-live="polite">or drag and drop an image here</div>
-      </div>
 
-      <div class="input-group">
-        <label for="colorCount">
-          Number of colors: 
-          <span id="colorCountValue" class="color-count-value" aria-live="polite">5</span>
-        </label>
-        <div class="range-input-container">
-          <input type="range" id="colorCount" min="2" max="10" value="5" 
-                aria-valuemin="2" aria-valuemax="10" aria-valuenow="5" />
-        </div>
-      </div>
+      <!-- Step 02: Image preview (shown after upload) -->
+      <img id="imagePreview" style="display: none" alt="Uploaded image preview" loading="lazy" />
 
-      <div class="input-group format-selector">
-        <label class="text-center">Color format:</label>
-        <div class="format-options" role="radiogroup" aria-label="Select color format">
-          <div class="format-option">
-            <input type="radio" id="formatHex" name="colorFormat" value="hex" checked aria-describedby="hexFormatHelp" />
-            <label for="formatHex">HEX</label>
-            <div id="hexFormatHelp" class="sr-only">Hexadecimal color format (e.g., #FF5733)</div>
-          </div>
-          <div class="format-option">
-            <input type="radio" id="formatRgb" name="colorFormat" value="rgb" aria-describedby="rgbFormatHelp" />
-            <label for="formatRgb">RGB</label>
-            <div id="rgbFormatHelp" class="sr-only">RGB color format (e.g., rgb(255, 87, 51))</div>
-          </div>
-          <div class="format-option">
-            <input type="radio" id="formatHsl" name="colorFormat" value="hsl" aria-describedby="hslFormatHelp" />
-            <label for="formatHsl">HSL</label>
-            <div id="hslFormatHelp" class="sr-only">HSL color format (e.g., hsl(14, 100%, 60%))</div>
-          </div>
-        </div>
-      </div>
+      <!-- Change image: shown after upload, always triggers file picker -->
+      <label for="imageUpload" class="change-image-btn">← Change image</label>
 
-      <div class="image-preview-container">
-        <div id="placeholderImage" role="img" aria-label="No image uploaded">No image uploaded</div>
-        <img id="imagePreview" style="display: none" alt="Uploaded image preview" loading="lazy" />
-      </div>
+      <!-- Placeholder: kept in DOM for JS compat, hidden by CSS -->
+      <div id="placeholderImage" aria-hidden="true"></div>
 
+      <!-- Color palette output -->
       <div id="colorPalette" role="region" aria-label="Extracted color palette" aria-live="polite"></div>
-      
-      <div class="app-footer">
-        <p>Select a color to copy its value to clipboard</p>
-      </div>
+
+      <!-- Footer -->
+      <footer class="page-footer">
+        <span class="label-xs">Select a color to copy</span>
+        <span class="label-xs">v.01</span>
+      </footer>
+
     </div>
 
-    <div id="notification" class="notification" role="alert" aria-live="polite"></div>
+    <!-- Notification toast -->
+    <div id="notification" class="notification" role="status" aria-live="polite"></div>
 
-    <!-- Use type="module" to enable ES modules -->
     <script type="module" src="js/index.js"></script>
     <script type="module">
       import { initThemeSwitcher } from './js/theme.js';
